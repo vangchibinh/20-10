@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi em yêu - 20/10</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Be+Vietnam+Pro:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+    <canvas id="fx"></canvas>
+
+    <audio id="bgm" loop preload="auto" src="{{ url_for('static', filename='music/love.mp3') }}"></audio>
+
+    <!-- Màn hình mở đầu -->
+    <section class="intro" id="intro">
+        <div class="intro-rays"></div>
+        <div class="intro-sparks" id="introSparks"></div>
+
+        <div class="intro-emblem">
+            <span class="emb-glow"></span>
+            <span class="ring ring1"></span>
+            <span class="ring ring2"></span>
+            <span class="ring ring3"></span>
+            <span class="intro-heart">♥</span>
+            <i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i>
+        </div>
+
+        <p class="intro-text" id="introText">Có một món quà nhỏ đang chờ em</p>
+        <button id="startBtn"><span>Chạm để bắt đầu</span></button>
+        <p class="intro-hint">Bật âm thanh để trải nghiệm trọn vẹn</p>
+    </section>
+
+    <!-- Cảnh tặng hoa -->
+    <section class="proposal" id="proposal" aria-hidden="true">
+        <p class="cap cap1">Giữa muôn vàn vì sao, có một người chỉ muốn trao em đóa hoa này.</p>
+        <p class="cap cap2">Chúc em một ngày 20/10 thật rạng rỡ ♥</p>
+
+        <svg class="scene-svg" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chàng trai quỳ một chân tặng hoa cho cô gái dưới ánh trăng">
+            <defs>
+                <radialGradient id="moonGlow"><stop offset="0" stop-color="#fff6dd" stop-opacity=".9"/><stop offset="1" stop-color="#ff9cc7" stop-opacity="0"/></radialGradient>
+                <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b1259"/><stop offset="1" stop-color="#12041f"/></linearGradient>
+                <linearGradient id="dress" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a1f63"/><stop offset="1" stop-color="#2a0b3f"/></linearGradient>
+                <radialGradient id="bloomGlow"><stop offset="0" stop-color="#ffd0e2" stop-opacity=".85"/><stop offset="1" stop-color="#ff4f93" stop-opacity="0"/></radialGradient>
+            </defs>
+
+            <g class="moon">
+                <circle cx="620" cy="120" r="90" fill="url(#moonGlow)"/>
+                <circle cx="620" cy="120" r="40" fill="#fff4d6"/>
+                <circle cx="608" cy="110" r="7" fill="#f3dfb8" opacity=".6"/>
+            </g>
+
+            <path d="M0 440 Q200 395 400 415 T800 405 V500 H0Z" fill="url(#hill)"/>
+            <ellipse class="ground-glow" cx="430" cy="424" rx="210" ry="14" fill="#ff4f93"/>
+            <g id="fireflies"></g>
+
+            <!-- Chàng trai quỳ một chân -->
+            <g class="figure boy">
+                <g stroke="#22093a" stroke-linecap="round" fill="none">
+                    <line x1="337" y1="366" x2="388" y2="372" stroke-width="18"/>
+                    <line x1="388" y1="372" x2="392" y2="416" stroke-width="15"/>
+                    <line x1="392" y1="418" x2="410" y2="418" stroke-width="9"/>
+                    <line x1="337" y1="366" x2="312" y2="414" stroke-width="18"/>
+                    <line x1="312" y1="414" x2="268" y2="417" stroke-width="14"/>
+                    <line x1="337" y1="302" x2="337" y2="364" stroke-width="30"/>
+                    <line x1="340" y1="312" x2="426" y2="334" stroke-width="11"/>
+                </g>
+                <circle cx="338" cy="282" r="16" fill="#22093a"/>
+            </g>
+
+            <!-- Cô gái -->
+            <g class="figure girl">
+                <path d="M520 284C505 296 500 340 462 418L578 418C540 340 535 296 520 284Z" fill="url(#dress)"/>
+                <path d="M520 246C548 240 556 285 550 335C541 302 531 286 514 280Z" fill="#1a0730"/>
+                <circle cx="520" cy="264" r="16" fill="#2a0b3f"/>
+                <g stroke="#2a0b3f" stroke-linecap="round" stroke-width="9" fill="none">
+                    <line x1="512" y1="302" x2="456" y2="314"/>
+                    <line x1="526" y1="304" x2="508" y2="326"/>
+                </g>
+            </g>
+
+            <!-- Bó hoa -->
+            <g transform="translate(432 300)">
+                <ellipse class="bloom-glow" cx="0" cy="-6" rx="60" ry="55" fill="url(#bloomGlow)"/>
+                <g class="bouquet">
+                    <ellipse cx="-24" cy="10" rx="9" ry="4" fill="#2f8f5b" transform="rotate(-25 -24 10)"/>
+                    <ellipse cx="24" cy="10" rx="9" ry="4" fill="#2f8f5b" transform="rotate(25 24 10)"/>
+                    <path d="M-16 8 L16 8 L4 38 L-4 38Z" fill="#ffe3ef"/>
+                    <circle cx="-18" cy="0" r="11" fill="#ff7aae"/>
+                    <circle cx="18" cy="-2" r="11" fill="#ffb3d1"/>
+                    <circle cx="-8" cy="-14" r="12" fill="#ff4f93"/>
+                    <circle cx="10" cy="-16" r="11" fill="#ffd0e2"/>
+                    <circle cx="0" cy="-4" r="13" fill="#ff6aa6"/>
+                    <circle cx="0" cy="-4" r="5" fill="#fff1f7" opacity=".8"/>
+                    <circle cx="-8" cy="-14" r="4" fill="#fff1f7" opacity=".7"/>
+                    <circle cx="10" cy="-16" r="4" fill="#fff" opacity=".7"/>
+                </g>
+            </g>
+
+            <!-- Tim bay lên và ánh lấp lánh -->
+            <g class="hearts">
+                <text class="rise" x="440" y="270" style="--dx:-40px;--dl:3.4s">♥</text>
+                <text class="rise" x="470" y="280" style="--dx:30px;--dl:4.2s">♥</text>
+                <text class="rise" x="420" y="280" style="--dx:-12px;--dl:5s">♥</text>
+                <text class="rise" x="455" y="275" style="--dx:55px;--dl:5.8s">♥</text>
+                <text class="rise" x="430" y="270" style="--dx:-60px;--dl:6.6s">♥</text>
+            </g>
+            <g class="sparkles">
+                <text class="spark" x="392" y="262" style="--dl:3.2s">✦</text>
+                <text class="spark" x="468" y="258" style="--dl:3.7s">✧</text>
+                <text class="spark" x="430" y="236" style="--dl:4.1s">✦</text>
+                <text class="spark" x="486" y="300" style="--dl:4.6s">✧</text>
+            </g>
+        </svg>
+
+        <button id="skipBtn" class="skip">Bỏ qua ›</button>
+    </section>
+    <div class="flash"></div>
+
+    <!-- Điều khiển nhạc -->
+    <div class="music reveal r1" id="music">
+        <button id="musicBtn" aria-label="Bật hoặc tắt nhạc" aria-pressed="false">♪</button>
+        <input id="vol" type="range" min="0" max="1" step="0.05" value="0.5" aria-label="Âm lượng">
+    </div>
+
+    <main class="container">
+        <p class="small-title reveal r1" style="--d:.2s">A SPECIAL GIFT FOR YOU</p>
+        <h1 class="reveal r1" style="--d:.9s">Chúc mừng ngày</h1>
+        <h2 class="date reveal r1" style="--d:1.6s">20/10</h2>
+        <p class="subtitle reveal r1" style="--d:2.4s">Gửi em yêu <span>♥</span></p>
+
+        <div class="heart-scene" id="heartScene">
+            <div class="heart-aura"></div>
+            <div class="orbit orbit-a"></div>
+            <div class="orbit orbit-b"></div>
+            <div class="orbit orbit-c"></div>
+            <div class="crystal-heart">
+                <div class="heart-layer heart-back"></div>
+                <div class="heart-layer heart-mid"></div>
+                <div class="heart-layer heart-front"></div>
+                <div class="heart-core">♥</div>
+                <span class="heart-glint glint-one">✦</span>
+                <span class="heart-glint glint-two">✧</span>
+            </div>
+            <div class="heart-pedestal"></div>
+        </div>
+
+        <div class="after-heart reveal r3">
+            <p class="message">
+                Mong em luôn rạng rỡ như những vì sao,<br>
+                luôn bình yên và hạnh phúc mỗi ngày.
+            </p>
+            <p class="quote">"Điều tuyệt vời nhất là được nhìn thấy em mỉm cười."</p>
+            <button id="giftBtn" class="gift-btn">♥ Mở món quà của em ♥</button>
+        </div>
+
+        <!-- Màn kết -->
+        <div class="finale reveal rdone">
+            <p class="finale-title">Chúc em mãi rạng rỡ như những vì sao ✦</p>
+            <p class="finale-text">Hôm nay và mọi ngày, em đều xứng đáng được yêu thương thật nhiều.</p>
+            <button id="galleryBtn" class="gift-btn">♥ Xem kỷ niệm của chúng mình ♥</button>
+            <button id="replayBtn" class="ghost-btn">↺ Xem lại từ đầu</button>
+        </div>
+    </main>
+
+    <!-- Bức thư -->
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="letterTitle">
+        <div class="mail-glow"></div>
+
+        <div class="envelope" aria-hidden="true">
+            <div class="env-back"></div>
+            <div class="env-paper"></div>
+            <div class="env-front"></div>
+            <div class="env-flap"></div>
+            <div class="env-seal">♥</div>
+            <i class="env-flare"></i>
+        </div>
+
+        <article class="letter">
+            <h3 id="letterTitle">Gửi em yêu,</h3>
+            <p>Hôm nay là 20/10, ngày dành cho những người phụ nữ tuyệt vời. Còn với riêng mình, em là người khiến cả những ngày bình thường cũng trở nên đáng nhớ.</p>
+            <p>Cảm ơn em vì sự dịu dàng, vì sự kiên nhẫn và những lúc em lặng lẽ ở bên cạnh. Mong em luôn được yêu thương đúng cách, được là chính mình và luôn tìm thấy niềm vui trong những điều nhỏ bé.</p>
+            <p>Dù cuộc sống có bận rộn đến đâu, mong em nhớ rằng luôn có một người đang trân trọng em. Chúc em một ngày 20/10 thật ngọt ngào.</p>
+            <p class="signature">Thương em thật nhiều ♥</p>
+            <button id="closeLetter" class="ghost-btn dark">Đóng thư</button>
+        </article>
+    </div>
+
+    <!-- Phòng triển lãm kỷ niệm -->
+    <section class="gallery" id="gallery" aria-hidden="true" aria-label="Kỷ niệm của chúng mình">
+        <button id="galleryClose" class="gal-close" aria-label="Đóng">✕</button>
+        <div class="gal-hearts" id="galHearts"></div>
+        <h2 class="gal-title">Kỷ niệm của chúng mình</h2>
+        <p class="gal-sub">Mỗi khoảnh khắc bên em đều đáng nhớ</p>
+        <div class="gal-stage" id="galStage"></div>
+        <p class="gal-cap" id="galCap"></p>
+        <div class="gal-nav">
+            <button id="galPrev" aria-label="Ảnh trước">‹</button>
+            <div class="gal-dots" id="galDots"></div>
+            <button id="galNext" aria-label="Ảnh sau">›</button>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='gallery.js') }}"></script>
+</body>
+</html>
